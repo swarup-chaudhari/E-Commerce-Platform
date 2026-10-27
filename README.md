@@ -109,17 +109,4 @@ prefer an httpOnly cookie via a BFF. Like the back end, the frontend has not bee
 - **Tracing**: Micrometer Tracing (Brave) → Zipkin `:9411`. Kafka template/listener observation is on, so one trace spans gateway → order → Kafka → inventory → payment → order.
 - **Logs**: every line carries `[service,traceId,spanId]`. Ship stdout with Loki/ELK/CloudWatch to centralise; searching by `traceId` reconstructs a request across services.
 
-## Tests
-- Unit: `cd backend && mvn test` (order state machine, payment decision rules).
-- Integration: `./scripts/smoke-test.sh` drives the real stack through the gateway: auth/RBAC, happy path, payment-decline compensation, cancel→refund compensation, event store, sync pre-check, ownership checks.
 
-API contracts: [`docs/API.md`](docs/API.md).
-
-## Honest limitations / production hardening
-- **This code was authored without access to a build environment, so it has not been compiled or run.** Expect to fix a few typos on first `mvn package`; the structure and wiring are complete.
-- Publish-after-commit can still lose an event if the process dies between commit and send. The robust fix is a **transactional outbox** (event table + relay/Debezium).
-- Add a **dead-letter topic** (`DeadLetterPublishingRecoverer`) instead of log-and-skip for poison messages.
-- Unit prices are client-supplied for brevity; price server-side from the catalog before charging.
-- Gateway issues HS256 demo tokens from in-memory users. Use a real IdP (Keycloak/Auth0) in production and have services validate JWTs too (defence in depth).
-- Single-node Kafka/Postgres/Mongo with `emptyDir` volumes are for local clusters; use Strimzi/managed services and PVCs/StatefulSets for real deployments.
-- Flyway owns the schema (`ddl-auto: none`); switch to `validate` in CI to catch entity/schema drift.
