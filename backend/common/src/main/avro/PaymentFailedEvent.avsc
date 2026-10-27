@@ -1,0 +1,2 @@
+{"type":"record","name":"PaymentFailedEvent","namespace":"com.zaalima.ecommerce.events",
+ "fields":[{"name":"eventId","type":"string"},{"name":"orderId","type":"string"},{"name":"reason","type":"string"},{"name":"occurredAt","type":"long"}]}

@@ -1,0 +1,2 @@
+{"type":"record","name":"InventoryReservedEvent","namespace":"com.zaalima.ecommerce.events",
+ "fields":[{"name":"eventId","type":"string"},{"name":"orderId","type":"string"},{"name":"customerId","type":"string"},{"name":"totalAmountCents","type":"long"},{"name":"occurredAt","type":"long"}]}

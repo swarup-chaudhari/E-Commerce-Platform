@@ -1,0 +1,3 @@
+{"type":"record","name":"OrderCancelledEvent","namespace":"com.zaalima.ecommerce.events",
+ "doc":"Customer cancelled; triggers refund + stock release.",
+ "fields":[{"name":"eventId","type":"string"},{"name":"orderId","type":"string"},{"name":"reason","type":"string"},{"name":"occurredAt","type":"long"}]}

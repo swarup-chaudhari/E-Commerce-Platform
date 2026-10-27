@@ -1,0 +1,3 @@
+package com.zaalima.ecommerce.inventory.domain;
+
+public enum ReservationStatus { RESERVED, RELEASED }

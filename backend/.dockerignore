@@ -1,0 +1,5 @@
+**/target
+.git
+.idea
+k8s
+docs

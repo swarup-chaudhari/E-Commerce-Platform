@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-server
+  namespace: ecommerce
+  labels: {app: config-server}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: config-server}
+  template:
+    metadata:
+      labels: {app: config-server}
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: config-server
+          image: ecommerce/config-server:1.0.0
+          imagePullPolicy: IfNotPresent     # images are built into the local Docker daemon (Minikube / Docker Desktop)
+          ports:
+            - containerPort: 8888
+          envFrom:
+            - configMapRef: {name: ecommerce-config}
+          startupProbe:
+            httpGet: {path: /actuator/health/liveness, port: 8888}
+            periodSeconds: 5
+            failureThreshold: 36
+          readinessProbe:
+            httpGet: {path: /actuator/health/readiness, port: 8888}
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: {path: /actuator/health/liveness, port: 8888}
+            periodSeconds: 15
+          resources:
+            requests: {cpu: 200m, memory: 384Mi}
+            limits: {memory: 768Mi}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-server
+  namespace: ecommerce
+spec:
+  selector: {app: config-server}
+  ports:
+    - port: 8888
+      targetPort: 8888

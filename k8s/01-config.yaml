@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecommerce-config
+  namespace: ecommerce
+data:
+  EUREKA_URL: http://service-registry:8761/eureka
+  EUREKA_HOSTNAME: service-registry
+  CONFIG_SERVER_URL: http://config-server:8888
+  KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+  SCHEMA_REGISTRY_URL: http://schema-registry:8081
+  DB_HOST: postgres
+  MONGO_URI: mongodb://mongo:27017/catalog
+  ZIPKIN_URL: http://zipkin:9411/api/v2/spans
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ecommerce-secrets
+  namespace: ecommerce
+type: Opaque
+stringData:        # demo values - use a real secret manager (Sealed Secrets, Vault, ESO) in production
+  DB_USER: postgres
+  DB_PASSWORD: postgres
+  JWT_SECRET: change-me-change-me-change-me-0123456789

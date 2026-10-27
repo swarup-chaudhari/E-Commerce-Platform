@@ -1,0 +1,13 @@
+{"type":"record","name":"OrderCreatedEvent","namespace":"com.zaalima.ecommerce.events",
+ "doc":"Saga start: an order was placed and awaits inventory reservation and payment.",
+ "fields":[
+  {"name":"eventId","type":"string"},
+  {"name":"orderId","type":"string"},
+  {"name":"customerId","type":"string"},
+  {"name":"items","type":{"type":"array","items":{"type":"record","name":"OrderLineItem","fields":[
+     {"name":"productId","type":"string"},
+     {"name":"quantity","type":"int"},
+     {"name":"unitPriceCents","type":"long"}]}}},
+  {"name":"totalAmountCents","type":"long"},
+  {"name":"occurredAt","type":"long","doc":"epoch millis"}
+ ]}

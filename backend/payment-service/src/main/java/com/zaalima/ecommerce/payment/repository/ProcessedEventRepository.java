@@ -1,0 +1,7 @@
+package com.zaalima.ecommerce.payment.repository;
+
+import com.zaalima.ecommerce.payment.domain.ProcessedEvent;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProcessedEventRepository extends JpaRepository<ProcessedEvent, String> {
+}

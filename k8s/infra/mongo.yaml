@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+  namespace: ecommerce
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app: mongo}
+  template:
+    metadata:
+      labels: {app: mongo}
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: mongo
+          image: mongo:7
+          ports: [{containerPort: 27017}]
+          volumeMounts: [{name: data, mountPath: /data/db}]
+      volumes:
+        - name: data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  namespace: ecommerce
+spec:
+  selector: {app: mongo}
+  ports: [{port: 27017, targetPort: 27017}]

@@ -1,0 +1,9 @@
+# Served to ALL services. Per-service overrides: <service-name>.yml in this folder.
+management:
+  tracing:
+    sampling:
+      probability: 1.0      # lower (e.g. 0.1) under heavy production load
+logging:
+  level:
+    com.zaalima.ecommerce: INFO
+    org.apache.kafka: WARN
